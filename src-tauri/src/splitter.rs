@@ -67,12 +67,26 @@ type CutPoint = (f64, u64);
 // Gọi ffmpeg / ffprobe
 // ---------------------------------------------------------------------------
 
-/// Ưu tiên bản đóng gói kèm app (`vs-ffmpeg`, xem scripts/fetch-ffmpeg.mjs),
-/// rồi tới `ffmpeg` đặt cạnh file chạy, cuối cùng là PATH.
+/// Thứ tự tìm: cạnh file chạy (`vs-ffmpeg` đóng gói kèm app, xem scripts/fetch-ffmpeg.mjs,
+/// hoặc `ffmpeg`), rồi thư mục `resources/` của dự án (khi chạy `npm run dev`), cuối cùng là PATH.
 fn tool_path(name: &str) -> PathBuf {
     let suffix = if cfg!(windows) { ".exe" } else { "" };
+    let triple = env!("VS_TARGET_TRIPLE");
+    let files = [
+        format!("vs-{name}{suffix}"),
+        format!("vs-{name}-{triple}{suffix}"),
+        format!("{name}{suffix}"),
+    ];
+
+    let mut dirs: Vec<PathBuf> = Vec::new();
     if let Some(dir) = std::env::current_exe().ok().and_then(|p| p.parent().map(Path::to_path_buf)) {
-        for file in [format!("vs-{name}{suffix}"), format!("{name}{suffix}")] {
+        dirs.push(dir);
+    }
+    #[cfg(debug_assertions)]
+    dirs.push(Path::new(env!("CARGO_MANIFEST_DIR")).join("..").join("resources"));
+
+    for dir in &dirs {
+        for file in &files {
             let candidate = dir.join(file);
             if candidate.is_file() {
                 return candidate;
