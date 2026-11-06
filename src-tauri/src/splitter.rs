@@ -67,16 +67,19 @@ type CutPoint = (f64, u64);
 // Gọi ffmpeg / ffprobe
 // ---------------------------------------------------------------------------
 
-/// Ưu tiên ffmpeg/ffprobe đặt cạnh file chạy của app, sau đó tới PATH.
+/// Ưu tiên bản đóng gói kèm app (`vs-ffmpeg`, xem scripts/fetch-ffmpeg.mjs),
+/// rồi tới `ffmpeg` đặt cạnh file chạy, cuối cùng là PATH.
 fn tool_path(name: &str) -> PathBuf {
-    let exe_name = if cfg!(windows) { format!("{name}.exe") } else { name.to_string() };
+    let suffix = if cfg!(windows) { ".exe" } else { "" };
     if let Some(dir) = std::env::current_exe().ok().and_then(|p| p.parent().map(Path::to_path_buf)) {
-        let candidate = dir.join(&exe_name);
-        if candidate.is_file() {
-            return candidate;
+        for file in [format!("vs-{name}{suffix}"), format!("{name}{suffix}")] {
+            let candidate = dir.join(file);
+            if candidate.is_file() {
+                return candidate;
+            }
         }
     }
-    PathBuf::from(exe_name)
+    PathBuf::from(format!("{name}{suffix}"))
 }
 
 fn command(name: &str) -> Command {

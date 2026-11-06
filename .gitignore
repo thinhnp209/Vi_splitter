@@ -8,3 +8,7 @@ film/
 *.mp4
 *.mkv
 *.mov
+
+# ffmpeg/ffprobe tải bằng scripts/fetch-ffmpeg.mjs
+resources/*
+!resources/.gitkeep

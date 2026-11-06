@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "tauri dev",
-    "build": "tauri build",
+    "build": "tauri build --config src-tauri/tauri.ffmpeg.conf.json",
+    "build:no-ffmpeg": "tauri build",
+    "ffmpeg": "node scripts/fetch-ffmpeg.mjs",
     "tauri": "tauri"
   },
   "devDependencies": {

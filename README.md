@@ -28,9 +28,23 @@
 
 ```bash
 npm install
-npm run dev     # chạy thử
-npm run build   # tạo bộ cài trong src-tauri/target/release/bundle/
+npm run dev     # chạy thử (dùng ffmpeg/ffprobe có sẵn trong PATH)
+npm run build   # tạo bộ cài trong src-tauri/target/release/bundle/, đóng gói kèm ffmpeg
 ```
+
+### Đóng gói kèm FFmpeg
+
+`npm run build` tự chạy `scripts/fetch-ffmpeg.mjs` để tải ffmpeg + ffprobe bản static (LGPL)
+vào `resources/` rồi nhúng vào bộ cài qua `bundle.externalBin` (cấu hình ở
+`src-tauri/tauri.ffmpeg.conf.json`). Người dùng cuối không cần cài FFmpeg.
+
+- Nguồn: [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds) (Linux, Windows), [evermeet.cx](https://evermeet.cx/ffmpeg/) (macOS).
+- File tải về: `resources/vs-ffmpeg-<target-triple>`, `resources/vs-ffprobe-<target-triple>` (không commit lên git).
+- Tải sẵn hoặc tải lại: `npm run ffmpeg` / `npm run ffmpeg -- --force`.
+- Build cho target khác: `npm run build -- --target x86_64-pc-windows-msvc`.
+- Build không kèm FFmpeg: `npm run build:no-ffmpeg`.
+
+App tìm ffmpeg theo thứ tự: `vs-ffmpeg` cạnh file chạy → `ffmpeg` cạnh file chạy → `PATH`.
 
 ## Test
 
@@ -47,4 +61,6 @@ FILM=/đường/dẫn/film.mp4 CHUNK=100 cargo test -- --include-ignored --nocap
 src/                   Giao diện (HTML/CSS/JS thuần)
 src-tauri/src/main.rs  Lệnh Tauri: scan_videos, split_video, cancel_split
 src-tauri/src/splitter.rs  Quét folder và logic chia video bằng FFmpeg
+scripts/fetch-ffmpeg.mjs   Tải ffmpeg/ffprobe để đóng gói
+resources/             Nơi chứa ffmpeg/ffprobe đã tải
 ```
