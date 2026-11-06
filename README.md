@@ -28,21 +28,22 @@
 
 ```bash
 npm install
-npm run dev     # chạy thử (dùng ffmpeg/ffprobe có sẵn trong PATH)
+npm run dev     # chạy thử
 npm run build   # tạo bộ cài trong src-tauri/target/release/bundle/, đóng gói kèm ffmpeg
 ```
 
 ### Đóng gói kèm FFmpeg
 
-`npm run build` tự chạy `scripts/fetch-ffmpeg.mjs` để tải ffmpeg + ffprobe bản static (LGPL)
-vào `resources/` rồi nhúng vào bộ cài qua `bundle.externalBin` (cấu hình ở
-`src-tauri/tauri.ffmpeg.conf.json`). Người dùng cuối không cần cài FFmpeg.
+Mọi lệnh `tauri dev` / `tauri build` đều tự chạy `scripts/fetch-ffmpeg.mjs` để chuẩn bị ffmpeg + ffprobe
+bản static trong `resources/` rồi nhúng vào bộ cài qua `bundle.externalBin` (cấu hình ở
+`src-tauri/tauri.conf.json`). Người dùng cuối không cần cài FFmpeg.
+
+Nếu `resources/` đã có sẵn `ffmpeg.exe` và `ffprobe.exe`, script dùng lại chúng; nếu không thì tải bản LGPL.
 
 - Nguồn: [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds) (Linux, Windows), [evermeet.cx](https://evermeet.cx/ffmpeg/) (macOS).
 - File tải về: `resources/vs-ffmpeg-<target-triple>`, `resources/vs-ffprobe-<target-triple>` (không commit lên git).
 - Tải sẵn hoặc tải lại: `npm run ffmpeg` / `npm run ffmpeg -- --force`.
 - Build cho target khác: `npm run build -- --target x86_64-pc-windows-msvc`.
-- Build không kèm FFmpeg: `npm run build:no-ffmpeg`.
 
 App tìm ffmpeg theo thứ tự: `vs-ffmpeg` cạnh file chạy → `ffmpeg` cạnh file chạy → `PATH`.
 
