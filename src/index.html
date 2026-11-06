@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Splitter</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Bộ icon (nét 2px, lưới 24px) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+        <symbol id="i-folder-open" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></symbol>
+        <symbol id="i-film" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18M3 7.5h4M3 12h18M3 16.5h4M17 3v18M17 7.5h4M17 16.5h4"/></symbol>
+        <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/></symbol>
+        <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+        <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+        <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+        <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+        <symbol id="i-file-plus" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 15h6M12 18v-6"/></symbol>
+        <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+        <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+        <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+        <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+      </defs>
+    </svg>
+
+    <div class="app">
+      <!-- ================= Sidebar ================= -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="logo"><svg class="icon"><use href="#i-scissors" /></svg></div>
+          <div>
+            <div class="brand-name">Video Splitter</div>
+            <div class="brand-sub">Chia film theo dung lượng</div>
+          </div>
+        </div>
+
+        <nav class="nav" id="nav" aria-label="Điều hướng">
+          <span class="nav-label">Ứng dụng</span>
+          <button type="button" class="nav-item active" data-view="videos">
+            <svg class="icon"><use href="#i-film" /></svg>Video
+            <span class="nav-count" id="nav-count">0</span>
+          </button>
+          <button type="button" class="nav-item" data-view="settings">
+            <svg class="icon"><use href="#i-settings" /></svg>Cài đặt
+          </button>
+        </nav>
+
+        <div class="cfg-card">
+          <span class="cfg-title">Cấu hình hiện tại</span>
+          <div class="cfg-row"><span>Ngưỡng chia</span><b id="cfg-threshold">400 MiB</b></div>
+          <div class="cfg-row"><span>Mỗi đoạn</span><b id="cfg-chunk">200 MiB</b></div>
+          <div class="cfg-row"><span>Lưu vào</span><b id="cfg-out">Cạnh film</b></div>
+          <button type="button" class="link" id="cfg-edit">Thay đổi →</button>
+        </div>
+
+        <footer class="sidebar-foot">
+          <span class="dot"></span>
+          <div>
+            <b>FFmpeg stream copy</b>
+            <span>Giữ nguyên chất lượng</span>
+          </div>
+        </footer>
+      </aside>
+
+      <!-- ================= Nội dung ================= -->
+      <main class="content">
+        <header class="topbar">
+          <span>Video Splitter</span>
+          <svg class="icon sm"><use href="#i-chevron-right" /></svg>
+          <b id="crumb">Danh sách video</b>
+        </header>
+
+        <!-- ---------- Tab Video ---------- -->
+        <section class="view" id="view-videos">
+          <div class="page-head">
+            <div class="page-title">
+              <h1>Danh sách video</h1>
+              <span class="mono" id="source-text">Chưa chọn nguồn</span>
+            </div>
+            <div class="page-actions">
+              <button id="pick-folder" class="btn btn-outline" type="button">
+                <svg class="icon"><use href="#i-folder" /></svg>Chọn thư mục
+              </button>
+              <button id="pick-files" class="btn btn-outline" type="button">
+                <svg class="icon"><use href="#i-file-plus" /></svg>Chọn file
+              </button>
+              <button id="rescan" class="btn btn-outline" type="button" disabled>
+                <svg class="icon"><use href="#i-refresh" /></svg>Quét lại
+              </button>
+              <button id="split-all" class="btn btn-primary" type="button" disabled>
+                <svg class="icon"><use href="#i-scissors" /></svg><span>Chia tất cả</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="queue" class="queue" hidden>
+            <span class="spinner"></span>
+            <span id="queue-text" class="queue-text">Đang xử lý…</span>
+            <div class="progress"><div id="queue-fill"></div></div>
+            <b id="queue-pct">0%</b>
+            <button id="cancel" class="btn btn-stop btn-sm" type="button">
+              <svg class="icon xs"><use href="#i-stop" /></svg>Dừng
+            </button>
+          </div>
+
+          <div class="toolbar">
+            <div class="segmented" id="filter" role="tablist" aria-label="Lọc video">
+              <button type="button" role="tab" data-filter="all">Tất cả <span id="ct-all">0</span></button>
+              <button type="button" role="tab" data-filter="over" class="active">Cần chia <span id="ct-over">0</span></button>
+              <button type="button" role="tab" data-filter="error">Lỗi <span id="ct-error">0</span></button>
+            </div>
+            <span id="summary" class="summary"></span>
+          </div>
+
+          <div class="table-card">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="check-col"><input type="checkbox" id="select-all" aria-label="Chọn tất cả" /></th>
+                    <th>Video</th>
+                    <th class="num col-size">Dung lượng</th>
+                    <th class="num col-parts">Đoạn</th>
+                    <th class="col-status">Trạng thái</th>
+                    <th class="actions-col"></th>
+                  </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+            <div id="empty" class="empty">
+              <div class="empty-icon"><svg class="icon"><use href="#i-folder" /></svg></div>
+              <div class="empty-title" id="empty-title">Chưa có video</div>
+              <div class="empty-sub" id="empty-sub">Chọn thư mục hoặc kéo thả vào cửa sổ.</div>
+            </div>
+            <div class="table-foot"><span id="foot-text">Kéo thả thư mục hoặc file vào cửa sổ để thêm</span></div>
+          </div>
+        </section>
+
+        <!-- ---------- Tab Cài đặt ---------- -->
+        <section class="view settings" id="view-settings" hidden>
+          <div class="page-title stacked">
+            <h1>Cài đặt</h1>
+            <span class="muted">Cấu hình cách quét và chia video. Thay đổi được lưu tự động.</span>
+          </div>
+
+          <section class="card">
+            <div class="card-head">
+              <h2>Nguồn video</h2>
+              <span>Thư mục hoặc file được quét để tìm video.</span>
+            </div>
+            <div class="card-body">
+              <div class="setting-row">
+                <div>
+                  <b>Nguồn đang quét</b>
+                  <span class="mono" id="source-full">Chưa chọn nguồn</span>
+                </div>
+              </div>
+              <hr />
+              <label class="switch setting-row" for="recursive">
+                <div>
+                  <b>Quét cả thư mục con</b>
+                  <span class="muted">Tìm video trong mọi thư mục bên trong, ví dụ từng mùa phim.</span>
+                </div>
+                <input id="recursive" type="checkbox" checked />
+                <span class="track"><span class="thumb"></span></span>
+              </label>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-head">
+              <h2>Cấu hình chia</h2>
+              <span>Quyết định video nào bị chia và mỗi đoạn lớn bao nhiêu.</span>
+            </div>
+            <div class="card-body">
+              <div class="grid-2">
+                <label class="field">
+                  <span class="field-label">Ngưỡng chia</span>
+                  <span class="input-suffix">
+                    <input id="threshold" type="number" min="1" step="1" value="400" />
+                    <span>MiB</span>
+                  </span>
+                  <span class="hint">Chỉ video lớn hơn ngưỡng này mới bị chia.</span>
+                </label>
+                <div class="field">
+                  <label class="field-label" for="chunk">Dung lượng tối đa mỗi đoạn</label>
+                  <span class="input-suffix">
+                    <input id="chunk" type="number" min="1" step="1" value="200" />
+                    <span>MiB</span>
+                  </span>
+                  <div class="chips" id="chunk-presets">
+                    <button type="button" data-v="100">100</button>
+                    <button type="button" data-v="200">200</button>
+                    <button type="button" data-v="500">500</button>
+                    <button type="button" data-v="1000">1000</button>
+                  </div>
+                </div>
+              </div>
+              <p id="input-error" class="field-error"></p>
+              <div class="callout" id="preview">
+                <svg class="icon"><use href="#i-layers" /></svg>
+                <span id="preview-text">Chọn nguồn video để xem số đoạn dự kiến.</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-head">
+              <h2>Lưu kết quả</h2>
+              <span>Nơi đặt các đoạn sau khi chia.</span>
+            </div>
+            <div class="card-body">
+              <div class="radio-grid">
+                <label class="radio-card" id="out-beside-card">
+                  <input id="out-beside" type="radio" name="outdir" checked />
+                  <div>
+                    <b>Cạnh mỗi film</b>
+                    <span>Tạo thư mục <code>&lt;tên film&gt;_parts/</code> ngay bên cạnh file gốc.</span>
+                  </div>
+                </label>
+                <label class="radio-card" id="out-custom-card">
+                  <input id="out-custom" type="radio" name="outdir" />
+                  <div>
+                    <b>Thư mục khác</b>
+                    <span>Gom các đoạn vào một thư mục bạn chọn.</span>
+                  </div>
+                </label>
+              </div>
+              <div class="path-row">
+                <div class="path-box">
+                  <svg class="icon"><use href="#i-folder" /></svg>
+                  <span id="outdir-text" class="path-text">Chưa chọn thư mục</span>
+                </div>
+                <button id="pick-out" class="btn btn-outline" type="button">Chọn thư mục…</button>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <!-- Thanh nổi khi chọn video -->
+    <div id="sel-bar" class="sel-bar" role="toolbar" aria-label="Thao tác với video đã chọn" hidden>
+      <button id="sel-clear" class="icon-btn" type="button" aria-label="Bỏ chọn"><svg class="icon sm"><use href="#i-x" /></svg></button>
+      <span id="sel-count" class="sel-count">0 video đã chọn</span>
+      <button id="sel-split" class="btn btn-primary btn-sm" type="button">
+        <svg class="icon sm"><use href="#i-scissors" /></svg><span>Chia</span>
+      </button>
+    </div>
+
+    <div id="drop-overlay" class="drop-overlay" hidden>
+      <div class="drop-card">
+        <svg class="icon"><use href="#i-upload" /></svg>
+        <div>Thả để quét video</div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+node_modules/
+src-tauri/target/
+src-tauri/gen/
+
+# Video test và kết quả chia
+film/
+*_parts/
+*.mp4
+*.mkv
+*.mov
