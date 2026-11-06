@@ -108,6 +108,18 @@ async function main() {
     console.log(`[ffmpeg] Đã có ffmpeg/ffprobe cho ${target}, bỏ qua (dùng --force để tải lại).`);
     return;
   }
+
+  // Dùng lại resources/ffmpeg(.exe), resources/ffprobe(.exe) nếu đã tự đặt sẵn (chỉ khi build cho máy hiện tại).
+  const local = (tool) => join(OUT_DIR, tool + ext);
+  if (!force && target === hostTriple() && TOOLS.every((t) => existsSync(local(t)))) {
+    for (const tool of TOOLS) {
+      copyFileSync(local(tool), dest(tool));
+      chmodSync(dest(tool), 0o755);
+      console.log(`[ffmpeg] ${local(tool)} → ${dest(tool)}`);
+    }
+    return;
+  }
+
   const urls = SOURCES[target];
   if (!urls) {
     throw new Error(
